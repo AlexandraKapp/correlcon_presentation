@@ -1,0 +1,29 @@
+.reveal title {
+      text-transform: none;
+}
+
+.reveal h1 {
+}
+
+.reveal h2 {
+    font-size: 18;
+    text-transform: none;
+}
+
+.reveal h3 {
+    font-size: 26;
+    text-transform: none;
+}
+
+#map {
+  width: 1000px;
+  height: 550px;
+}
+
+#map_full_screen {
+  width: 2400px;
+  height: 700px;
+  margin: 0;
+  padding: 0;
+}
+

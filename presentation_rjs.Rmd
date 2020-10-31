@@ -1,0 +1,192 @@
+---
+title: "#30dayMapChallenge"
+subtitle: CorrlCon
+author: "Alexandra Kapp"
+date: "7th Nov 2020"
+output:
+  revealjs::revealjs_presentation:
+    css: css/style.css
+    theme: dark
+    transition: slide
+    highlight: pygments
+    center: true
+---
+
+# 
+<h3>What is the #30dayMapChallenge?</h3>
+
+<img src="img/30daymapchallenge.png" width="500">
+
+# 
+<h3>My submission to the challenge</h3>
+- ~ 15 days of the 30 days
+- today I will present 10 of the maps
+- (mostly) interactive maps with R
+- Frameworks for interactive maps:
+  - Leaflet
+  - Deck.gl (*Package: mapdeck*)
+  
+## Leaflet
+- leading open-source JavaScript library
+- has been around for ~ 10 years
+- usually when you see maps online, they are made with Leaflet
+
+<img src="img/leaflet_example.png" width="600">
+
+## Deck.gl
+- started ~ 4 years ago
+- especially great for large data and 3D views
+- R package to access deck.gl: *mapdeck*
+
+<img src="img/deckgl_example.png" width="600">
+
+
+# Day 1 
+<h3>*Points*</h3>
+## plotting all + 80.000 cars in Friedrichshain-Kreuzberg
+
+![](img/day1.png)
+
+## geocomputation made easy with the 'sf' package
+
+- crop polygon to outline of another polygon
+
+```{r, eval = FALSE}
+streets_in_xhain <- st::st_intersection(streets_berlin, berlin) 
+```
+
+- sample points in a polygon
+
+```{r, eval = FALSE}
+cars <- st::st_sample(streets_xhain,size=amount_cars_xhain)
+```
+
+# Day 8 
+<h3>*Yellow*</h3>   
+
+##
+
+<iframe id = "map_full_screen" data-src="img/day8.html"></iframe>
+
+
+## Plot raster data with leaflet and leafem
+- add raster data: *leaflet::addRasterImage()*
+- add Mouseover for raster data: *leafem::addImageQuery()*
+
+```{r, eval = FALSE}
+leaflet() %>% 
+    addProviderTiles(providers$CartoDB.DarkMatter) %>%
+    addRasterImage(hours_of_sunshine, colors =  pal, group = "hours of sunshine") %>% 
+    addImageQuery(hours_of_sunshine, layerId = "hours of sunshine")
+```
+
+# Day 3
+<h3>*Polygons*</h3>
+
+## Which boulder gym is closest to you?
+
+<iframe id = "map" data-src="img/day3.html"></iframe>
+
+## Create a geospatial voronoi map
+
+- *dismo::voronoi()*
+
+# Day 14
+<h3>*Climate Change*</h3>
+
+## How large is the area of in 2019 destroyed rain forest?
+
+<iframe id = "map" data-src="img/day14.html"></iframe>
+
+
+<small>Map made with mapview. Leaflet | © OpenStreetMap contributors © CARTO </small>
+
+## *leafpm* for editable polygons
+- *leafpm::toolbarOptions()* to draw, cut, edit and move vectors
+
+# Day 9
+<h3>*Monochrome*</h3>
+
+##
+
+<iframe id = "map_full_screen" data-src="img/day9.html"></iframe>
+
+
+## use *stplanr* for routing and aggregating lines
+- *stplanr::route()*
+- *stplanr::overline()*
+
+# Day 20
+<h3>*Population*</h3>
+
+##
+
+<iframe id="map_full_screen" data-src="https://lxndrkp.shinyapps.io/day20/"/>
+
+  
+## react to clicks on map with *shiny*
+
+- clicks on *leaflet* maps can be accessed in shiny via an *observeEvent(input$map_shape_click, {})*
+
+# Day 2
+<h3>*Lines*</h3>
+
+## Air traffic between German Airports
+
+<iframe id = "map" data-src="img/day2.html"></iframe>
+
+
+## Origin destination with *flowmap.blue*
+- [Flowmap.blue](https://flowmap.blue/)
+- fast and easy viz of origin destination data
+- can be done entirely without coding (with Google Sheets)
+- new: R package
+
+# Day 10
+<h3>*Grid*</h3>
+
+##
+
+<iframe id = "map_full_screen" data-src="https://lxndrkp.shinyapps.io/day10/"></iframe>
+
+## get OSM data with a single line of code via *osmdata*
+
+- OpenStreetMap overs a huge ressource on openly available geodata (streets, rivers, restaurants, stores, ... )
+- this data can be retrieved with the [Overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API) which is accesible with the *osmdata* package in R
+
+```{r, eval = FALSE}
+opq(bbox = 'berlin germany') %>%
+     add_osm_feature(key = 'amenity', value = c('fast_food', 'restaurant')) %>% 
+     osmdata_sf ()
+```
+
+- auto aggregated grids with *mapdeck*
+  - *mapdeck::add_screengrid()*
+
+
+# Day 4
+<h3>*Hexagons*</h3>
+
+## All traffic accidents in Stuttgart
+
+## elevation and hexagons with *mapdeck*
+
+
+# Day 22
+<h3>*Movement*</h3>
+
+## all U-Bahns in Berlin
+
+<video data-autoplay src="img/day22.mp4"></video>
+
+## moving lines with *mapdeck*
+
+- *mapdeck::add_trips()*
+
+# Thanks for your attention!
+
+- [Presentation]()
+- [Examples & Code]()
+- [Twitter](https://twitter.com/lxndrkp) @lxndrkp
+- [GitHub](https://github.com/AlexandraKapp) AlexandraKapp
+
