@@ -1,18 +1,18 @@
-.reveal title {
-      text-transform: none;
-}
-
 .reveal h1 {
 }
 
 .reveal h2 {
-    font-size: 18;
+    font-size: 1.5em !important;
     text-transform: none;
 }
 
 .reveal h3 {
-    font-size: 26;
+    font-size: 1.5em !important;
     text-transform: none;
+}
+
+.reveal p {
+      font-size: 1em !important;
 }
 
 #map {

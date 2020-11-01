@@ -47,7 +47,9 @@ output:
 
 ![](img/day1.png)
 
-## geocomputation made easy with the 'sf' package
+## geocomputation made easy with the *sf* package
+
+<section style="text-align: left;">
 
 - crop polygon to outline of another polygon
 
@@ -58,9 +60,10 @@ streets_in_xhain <- st::st_intersection(streets_berlin, berlin)
 - sample points in a polygon
 
 ```{r, eval = FALSE}
-cars <- st::st_sample(streets_xhain,size=amount_cars_xhain)
+cars <- st::st_sample(streets_xhain,size= 80808)
 ```
 
+</section>
 # Day 8 
 <h3>*Yellow*</h3>   
 
@@ -69,15 +72,16 @@ cars <- st::st_sample(streets_xhain,size=amount_cars_xhain)
 <iframe id = "map_full_screen" data-src="img/day8.html"></iframe>
 
 
-## Plot raster data with leaflet and leafem
+## Plot raster data with *leaflet* and *leafem*
+
 - add raster data: *leaflet::addRasterImage()*
 - add Mouseover for raster data: *leafem::addImageQuery()*
 
 ```{r, eval = FALSE}
 leaflet() %>% 
     addProviderTiles(providers$CartoDB.DarkMatter) %>%
-    addRasterImage(hours_of_sunshine, colors =  pal, group = "hours of sunshine") %>% 
-    addImageQuery(hours_of_sunshine, layerId = "hours of sunshine")
+    addRasterImage(hours_of_sunshine, colors =  pal, group = "g") %>% 
+    addImageQuery(hours_of_sunshine, layerId = "g")
 ```
 
 # Day 3
@@ -86,10 +90,16 @@ leaflet() %>%
 ## Which boulder gym is closest to you?
 
 <iframe id = "map" data-src="img/day3.html"></iframe>
+  
+## Create a geospatial voronoi map mit *dismo*
 
-## Create a geospatial voronoi map
+```{r, eval = FALSE}
+gyms_voronoi <- dismo::voronoi(boulder_gyms[c("lon", "lat")]) %>% 
+  st_as_sf()
+st_crs(gyms_voronoi) <- 4326
 
-- *dismo::voronoi()*
+mapview(gyms_voronoi)
+```
 
 # Day 14
 <h3>*Climate Change*</h3>
@@ -98,11 +108,16 @@ leaflet() %>%
 
 <iframe id = "map" data-src="img/day14.html"></iframe>
 
-
-<small>Map made with mapview. Leaflet | © OpenStreetMap contributors © CARTO </small>
-
 ## *leafpm* for editable polygons
-- *leafpm::toolbarOptions()* to draw, cut, edit and move vectors
+
+- *leafpm::addPmToolbar()* to draw, cut, edit and move vectors
+
+```{r, eval = FALSE}
+  leaflet(rainforest_area) %>%
+    addTiles() %>%
+    addPolygons(group = "p") %>% 
+    leafpm::addPmToolbar(targetGroup = "p")
+```
 
 # Day 9
 <h3>*Monochrome*</h3>
@@ -113,8 +128,20 @@ leaflet() %>%
 
 
 ## use *stplanr* for routing and aggregating lines
-- *stplanr::route()*
-- *stplanr::overline()*
+
+```{r, eval = FALSE}
+start_points <- st_sample(berlin,size=500) %>% st_as_sf
+end_points <- st_sample(berlin,size=500) %>% st_as_sf
+
+routes <- stplanr::route(from = start_points, 
+                to = end_points, 
+                route_fun = osrmRoute,
+                returnclass = "sf")
+
+routes["count"] <- 1
+
+overlapping_segments <- stplanr::overline(routes, attrib = "count")
+```
 
 # Day 20
 <h3>*Population*</h3>
@@ -123,10 +150,15 @@ leaflet() %>%
 
 <iframe id="map_full_screen" data-src="https://lxndrkp.shinyapps.io/day20/"/>
 
-  
-## react to clicks on map with *shiny*
+## react to clicks on *leaflet* map with *shiny*
 
-- clicks on *leaflet* maps can be accessed in shiny via an *observeEvent(input$map_shape_click, {})*
+```{r, eval = FALSE}
+observeEvent(input$map_shape_click, {})
+```
+
+## Backup image
+
+<video data-autoplay src="img/day20.mp4"></video>
 
 # Day 2
 <h3>*Lines*</h3>
@@ -137,10 +169,15 @@ leaflet() %>%
 
 
 ## Origin destination with *flowmap.blue*
+
 - [Flowmap.blue](https://flowmap.blue/)
 - fast and easy viz of origin destination data
 - can be done entirely without coding (with Google Sheets)
-- new: R package
+- new: also available as R package
+
+## Backup image
+
+![](img/day2.png)
 
 # Day 10
 <h3>*Grid*</h3>
@@ -149,28 +186,52 @@ leaflet() %>%
 
 <iframe id = "map_full_screen" data-src="https://lxndrkp.shinyapps.io/day10/"></iframe>
 
-## get OSM data with a single line of code via *osmdata*
+## get OSM data with *osmdata*
 
 - OpenStreetMap overs a huge ressource on openly available geodata (streets, rivers, restaurants, stores, ... )
 - this data can be retrieved with the [Overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API) which is accesible with the *osmdata* package in R
 
 ```{r, eval = FALSE}
-opq(bbox = 'berlin germany') %>%
-     add_osm_feature(key = 'amenity', value = c('fast_food', 'restaurant')) %>% 
+osmdata::opq(bbox = 'berlin germany') %>%
+     add_osm_feature(key = 'amenity', 
+                     value = c('fast_food', 'restaurant')) %>% 
      osmdata_sf ()
 ```
 
-- auto aggregated grids with *mapdeck*
-  - *mapdeck::add_screengrid()*
+## auto aggregated grids with *mapdeck*
 
+- insert point data
+- point counts are automatically aggregated to grids
+
+```{r, eval = FALSE}
+mapdeck::mapdeck() %>% 
+ mapdeck::add_screengrid(data = restaurants)
+```
+
+## Backup image
+
+![](img/day10.png)
 
 # Day 4
 <h3>*Hexagons*</h3>
 
 ## All traffic accidents in Stuttgart
 
+<iframe id = "map" data-src="img/day4.html/"></iframe>
+
 ## elevation and hexagons with *mapdeck*
 
+- insert point data
+- point counts are automatically aggregated to hexagons
+
+```{r, eval = FALSE}
+mapdeck::mapdeck() %>% 
+ mapdeck::add_hexagon(data = accidents_stuttgart)
+```
+
+## Backup image
+
+![](img/day4.png)
 
 # Day 22
 <h3>*Movement*</h3>
@@ -181,12 +242,15 @@ opq(bbox = 'berlin germany') %>%
 
 ## moving lines with *mapdeck*
 
-- *mapdeck::add_trips()*
+```{r, eval = FALSE}
+mapdeck::mapdeck() %>% 
+ mapdeck::add_trips(data = ubahn)
+```
 
 # Thanks for your attention!
 
-- [Presentation]()
-- [Examples & Code]()
+- [Presentation](https://github.com/AlexandraKapp/correlcon_presentation)
+- [Examples & Code](https://alexandrakapp.github.io/30daymapchallenge/) https://alexandrakapp.github.io/30daymapchallenge/
 - [Twitter](https://twitter.com/lxndrkp) @lxndrkp
 - [GitHub](https://github.com/AlexandraKapp) AlexandraKapp
 
