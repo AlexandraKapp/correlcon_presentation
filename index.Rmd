@@ -217,7 +217,7 @@ mapdeck::mapdeck() %>%
 
 ## All traffic accidents in Stuttgart
 
-<iframe id = "map" data-src="img/day4.html/"></iframe>
+<iframe id = "map" data-src="img/day4.html"></iframe>
 
 ## elevation and hexagons with *mapdeck*
 
@@ -249,8 +249,14 @@ mapdeck::mapdeck() %>%
 
 # Thanks for your attention!
 
-- [Presentation](https://github.com/AlexandraKapp/correlcon_presentation)
-- [Examples & Code](https://alexandrakapp.github.io/30daymapchallenge/) https://alexandrakapp.github.io/30daymapchallenge/
+- [Presentation](https://alexandrakapp.github.io/correlcon_presentation/)
+
+  <span style="font-size: 18px">https://alexandrakapp.github.io/correlcon_presentation/</span>
+  
+- [Examples & Code](https://alexandrakapp.github.io/30daymapchallenge/)
+
+  <span style="font-size: 18px">https://alexandrakapp.github.io/30daymapchallenge/</span>
+  
 - [Twitter](https://twitter.com/lxndrkp) @lxndrkp
 - [GitHub](https://github.com/AlexandraKapp) AlexandraKapp
 
