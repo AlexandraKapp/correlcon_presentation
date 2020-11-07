@@ -45,7 +45,7 @@ output:
 <h3>*Points*</h3>
 ## plotting all + 80.000 cars in Friedrichshain-Kreuzberg
 
-![](img/day1.png)
+<iframe id = "map" data-src="img/day1.html"></iframe>
 
 ## geocomputation made easy with the *sf* package
 
@@ -54,7 +54,8 @@ output:
 - crop polygon to outline of another polygon
 
 ```{r, eval = FALSE}
-streets_in_xhain <- st::st_intersection(streets_berlin, xhain_outline) 
+streets_in_xhain <- st::st_intersection(streets_berlin, 
+                                        xhain_outline) 
 ```
 
 - sample points in a polygon
