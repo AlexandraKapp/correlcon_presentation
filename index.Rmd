@@ -1,6 +1,6 @@
 ---
 title: "#30dayMapChallenge"
-subtitle: CorrlCon
+subtitle: CorrelCon
 author: "Alexandra Kapp"
 date: "7th Nov 2020"
 output:
@@ -54,7 +54,7 @@ output:
 - crop polygon to outline of another polygon
 
 ```{r, eval = FALSE}
-streets_in_xhain <- st::st_intersection(streets_berlin, berlin) 
+streets_in_xhain <- st::st_intersection(streets_berlin, xhain_outline) 
 ```
 
 - sample points in a polygon
@@ -80,7 +80,7 @@ cars <- st::st_sample(streets_xhain,size= 80808)
 ```{r, eval = FALSE}
 leaflet() %>% 
     addProviderTiles(providers$CartoDB.DarkMatter) %>%
-    addRasterImage(hours_of_sunshine, colors =  pal, group = "g") %>% 
+    addRasterImage(hours_of_sunshine, group = "g") %>% 
     addImageQuery(hours_of_sunshine, layerId = "g")
 ```
 
@@ -94,11 +94,7 @@ leaflet() %>%
 ## Create a geospatial voronoi map mit *dismo*
 
 ```{r, eval = FALSE}
-gyms_voronoi <- dismo::voronoi(boulder_gyms[c("lon", "lat")]) %>% 
-  st_as_sf()
-st_crs(gyms_voronoi) <- 4326
-
-mapview(gyms_voronoi)
+gyms_voronoi <- dismo::voronoi(boulder_gyms[c("lon", "lat")])
 ```
 
 # Day 14
